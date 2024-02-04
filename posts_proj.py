@@ -29,6 +29,20 @@ def print_post_comments(post_id):
     comments = response.json()
     for comment in comments:
         print(f"\n{comment['name']}:{comment['body']}")
+        
+def publish_comment(post_id, text_input, name, email):
+    comment_data = {
+        'postId': post_id,
+        'name': name,
+        'email': email,
+        'body': text_input
+    }
+    # NOTE this is just a test site, not actually POSTing this data as per docs
+    response = requests.post(f"{JSONPlaceholder_API_URL}/comments", json=comment_data)
+    if(response.status_code == 201):
+        print("\nComment published successfully!")
+    else:
+        print("\nFailed to publish comment.")    
 
 
 def main():
@@ -43,7 +57,7 @@ def main():
     while(invalid):
         print("\nWhich Post would you like to view? (Choose from 1-10)")
         choice = int(input("Enter your choice: "))
-        if (choice < 11 and choice > 0):
+        if(choice < 11 and choice > 0):
             invalid = False
         else:
             print("Please choose within the bounds 1-10!")
@@ -59,6 +73,19 @@ def main():
                 print_post_comments(posts[trueIndex]['id'])
         else:
             print("Please type \"YES\" or \"NO\" ONLY")
+
+    comment_to_publish = input("\nType your own comment now, or just press ENTER to skip: ")
+    if(comment_to_publish != ""):
+        invalid = True
+        while(invalid):
+            name = input("\nEnter your name: ")
+            email = input("also, enter your email: ")
+            if (name != "" and email != ""):
+                invalid = False
+            else:
+                print("Name and Email must not be blank!")
+
+        publish_comment(posts[trueIndex]['id'], comment_to_publish, name, email)
 
 if __name__ == "__main__":
     main()
