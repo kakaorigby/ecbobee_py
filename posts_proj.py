@@ -16,7 +16,7 @@ def main():
 
     posts = get_random_posts()
     for i in range(len(posts)):
-        print(f"{i+1}. {posts[i]['title']}")
+        print(f"{i+1}. {posts[i]['title']}") # i+1 to ensure user-facing index is 1 to 10
 
     invalid = True
     while(invalid):
@@ -26,7 +26,7 @@ def main():
             invalid = False
         else:
             print("Please choose within the bounds 1-10!")
-    trueIndex = choice - 1
+    trueIndex = choice - 1 # Converts user-facing index to zero-based numbering
 
 if __name__ == "__main__":
     main()
