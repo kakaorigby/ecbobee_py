@@ -1,5 +1,6 @@
 import requests
 import random
+from profanity_check import predict, predict_prob
 
 JSONPlaceholder_API_URL = "https://jsonplaceholder.typicode.com/"
 
@@ -83,9 +84,15 @@ def main():
                 print_post_comments(posts[trueIndex]['id'])
         else:
             print("Please type \"YES\" or \"NO\" ONLY")
+    profanity = True
+    while(profanity):
+        comment_to_publish = input(
+            "\nType your own comment now, or just press ENTER to skip: ")
+        if (predict([comment_to_publish])):
+            print("Please do not use profanity!")
+        else:
+            profanity = False
 
-    comment_to_publish = input(
-        "\nType your own comment now, or just press ENTER to skip: ")
     if (comment_to_publish != ""):
         invalid = True
         while (invalid):
